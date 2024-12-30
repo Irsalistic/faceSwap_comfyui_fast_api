@@ -1,0 +1,59 @@
+{
+  "1": {
+    "inputs": {
+      "image": "Screenshot 2024-12-20 151618.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "3": {
+    "inputs": {
+      "mask_threshold": 250,
+      "gaussblur_radius": 6,
+      "invert_mask": false,
+      "images": [
+        "1",
+        0
+      ],
+      "masks": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "LamaRemover",
+    "_meta": {
+      "title": "Big lama Remover"
+    }
+  },
+  "4": {
+    "inputs": {
+      "images": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "5": {
+    "inputs": {
+      "red": 0,
+      "green": 0,
+      "blue": 0,
+      "threshold": 0,
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "MaskFromColor+",
+    "_meta": {
+      "title": "🔧 Mask From Color"
+    }
+  }
+}

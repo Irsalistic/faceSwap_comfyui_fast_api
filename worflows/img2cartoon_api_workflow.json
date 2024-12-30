@@ -1,0 +1,145 @@
+{
+  "8": {
+    "inputs": {
+      "samples": [
+        "36",
+        0
+      ],
+      "vae": [
+        "14",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode2"
+    }
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "img2img",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "14": {
+    "inputs": {
+      "ckpt_name": "aamXLAnimeMix_v10.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint Base"
+    }
+  },
+  "16": {
+    "inputs": {
+      "width": 395,
+      "height": 594,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 395,
+      "target_height": 594,
+      "text_g": "A vibrant and detailed cartoon-style illustration, smooth and clean outlines, bold colors, soft shading, expressive and exaggerated features, playful and whimsical atmosphere, simplified yet captivating details, high-definition cartoon aesthetic, professional comic book style, large and lively eyes, crisp facial expressions, glowing highlights, finely rendered textures, dynamic and cheerful composition, polished and refined.\n",
+      "text_l": "A vibrant and detailed cartoon-style illustration, smooth and clean outlines, bold colors, soft shading, expressive and exaggerated features, playful and whimsical atmosphere, simplified yet captivating details, high-definition cartoon aesthetic, professional comic book style, large and lively eyes, crisp facial expressions, glowing highlights, finely rendered textures, dynamic and cheerful composition, polished and refined.\n",
+      "clip": [
+        "14",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL",
+    "_meta": {
+      "title": "CLIPText Positive"
+    }
+  },
+  "19": {
+    "inputs": {
+      "width": 395,
+      "height": 594,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 395,
+      "target_height": 594,
+      "text_g": "Photorealism, realistic textures, muted or dull colors, overly complex details, harsh shadows, blurry or noisy image, distorted features, asymmetry, low resolution, abstract or surreal elements, creepy or unsettling vibes, messy or inconsistent outlines, overly dark tones, flat or lifeless rendering, unnatural or exaggerated skin textures.\n",
+      "text_l": "Photorealism, realistic textures, muted or dull colors, overly complex details, harsh shadows, blurry or noisy image, distorted features, asymmetry, low resolution, abstract or surreal elements, creepy or unsettling vibes, messy or inconsistent outlines, overly dark tones, flat or lifeless rendering, unnatural or exaggerated skin textures.\n",
+      "clip": [
+        "14",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL",
+    "_meta": {
+      "title": "CLIPText Negative"
+    }
+  },
+  "36": {
+    "inputs": {
+      "seed": 819778100069617,
+      "steps": 25,
+      "cfg": 7,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "simple",
+      "denoise": 0.25,
+      "model": [
+        "14",
+        0
+      ],
+      "positive": [
+        "16",
+        0
+      ],
+      "negative": [
+        "19",
+        0
+      ],
+      "latent_image": [
+        "39",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "37": {
+    "inputs": {
+      "vae_name": "taesdxl"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "38": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "39": {
+    "inputs": {
+      "pixels": [
+        "38",
+        0
+      ],
+      "vae": [
+        "14",
+        2
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode1"
+    }
+  }
+}
