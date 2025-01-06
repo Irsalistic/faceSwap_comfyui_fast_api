@@ -1,96 +1,90 @@
-# Image Generation ComfyUI API
+# FaceSwap API
 
-## Overview
-This project provides a FastAPI-based web application that transforms images into various artistic styles, including anime, cartoon, Disney, and avatar styles. Each transformation is implemented as a separate endpoint.
+A FastAPI-based service that provides face swapping capabilities using image processing and AI. The API supports both target-based face swapping and prompt-guided face generation.
 
 ## Features
-- **Anime Style**: Converts uploaded images into anime-inspired artwork.
-- **Cartoon Style**: Generates cartoon-like images with bold outlines and vibrant colors.
-- **Disney Style**: Creates Disney-inspired portraits with fairy-tale aesthetics.
-- **Avatar Style**: Produces digital avatars with semi-realistic features, perfect for profile pictures.
 
-## Project Structure
-```
-project-root/
-├── main.py          # Main application file that integrates all routers
-├── img2anime.py     # Endpoint for anime-style transformation
-├── img2cartoon.py   # Endpoint for cartoon-style transformation
-├── img2disney.py    # Endpoint for Disney-style transformation
-├── img2avatar.py    # Endpoint for avatar-style transformation
-├── shared.py        # Shared utilities and functions
-├── workflows/       # JSON workflow files for each transformation
-│   ├── img2anime_workflow.json
-│   ├── img2cartoon_workflow.json
-│   ├── img2disney_workflow.json
-│   └── img2avatar_workflow.json
-├── uploaded_images/ # Folder for storing uploaded images temporarily
-└── requirements.txt # Project dependencies
-```
-
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Metex-Labz-AI-Projects/photolabz-compfyui
-   cd photolabz-compfyui
-   ```
-2. Set up a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Usage
-1. Run the application:
-   ```bash
-   uvicorn main:app --reload
-   ```
+- Face swapping between two images
+- Prompt-guided face generation and swapping
+- Support for custom image uploads
+- Error handling and validation
 
 ## API Endpoints
-### `/img2anime`
-- **Method**: POST
-- **Parameters**:
-  - `pos_prompt` (string): Description of the desired image style.
-  - `denoising_strength` (float): Controls the level of transformation.
-  - `image` (file): Input image to be transformed.
-- **Response**: Streamed PNG image.
 
-### `/img2cartoon`
-- **Method**: POST
-- **Parameters**:
-  - `pos_prompt` (string): Description of the desired image style.
-  - `denoising_strength` (float): Controls the level of transformation.
-  - `image` (file): Input image to be transformed.
-- **Response**: Streamed PNG image.
+### POST /faceswap
 
-### `/img2disney`
-- **Method**: POST
-- **Parameters**:
-  - `pos_prompt` (string): Description of the desired image style.
-  - `denoising_strength` (float): Controls the level of transformation.
-  - `image` (file): Input image to be transformed.
-- **Response**: Streamed PNG image.
+Performs face swapping operations based on provided inputs.
 
-### `/img2avatar`
-- **Method**: POST
-- **Parameters**:
-  - `pos_prompt` (string): Description of the desired image style.
-  - `denoising_strength` (float): Controls the level of transformation.
-  - `image` (file): Input image to be transformed.
-- **Response**: Streamed PNG image.
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| pos_prompt | string | No | Text prompt for guided face generation |
+| face_image | file | Yes | Source face image |
+| target_image | file | Yes | Target image for face swapping |
+
+#### Request Format
+
+The request should be sent as `multipart/form-data` with the following fields:
+- `face_image`: The source face image file
+- `target_image`: The target image file
+- `pos_prompt` (optional): Text prompt for guided generation
+
+#### Response
+
+Returns the processed image with the face swap applied.
+
+#### Error Handling
+
+The API returns a 500 status code with error details if processing fails.
+
+## Dependencies
+
+- FastAPI
+- Python 3.x
+- Additional dependencies in `requirements.txt` (to be installed)
+
+## Usage Example
+
+```python
+import requests
+
+url = "http://your-server/faceswap"
+
+# Basic face swap
+files = {
+    'face_image': open('source_face.jpg', 'rb'),
+    'target_image': open('target_image.jpg', 'rb')
+}
+response = requests.post(url, files=files)
+
+# Prompt-guided face swap
+files = {
+    'face_image': open('source_face.jpg', 'rb'),
+    'target_image': open('target_image.jpg', 'rb')
+}
+data = {
+    'pos_prompt': 'your prompt here'
+}
+response = requests.post(url, files=files, data=data)
+```
+
+## Configuration
+
+The API uses workflow configuration files:
+- `workflows/face_swap_api_workflow.json`: For prompt-guided face generation
+- `workflows/target_photo_face_swap_api.json`: For direct face swapping
+
+## Error Handling
+
+The API includes comprehensive error handling:
+- Input validation for required files
+- Processing error handling with detailed error messages
+- HTTP 500 responses for server-side errors
 
 ## Notes
-- Ensure that the `workflows` folder contains valid JSON configurations for each transformation.
-- The `uploaded_images` folder is used for temporary storage and will automatically clean up images post-processing.
-- The `shared.py` module should include common utilities, such as image resizing functions.
 
-## Future Enhancements
-- Add support for additional artistic styles.
-- Implement caching for frequently requested transformations.
-- Enhance error handling and logging mechanisms.
-
-
+- Ensure proper file permissions for workflow JSON files
+- Configure server address and client ID in your environment
+- Handle large files appropriately in your deployment
 
