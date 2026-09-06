@@ -1,4 +1,5 @@
 import io
+import os
 import tempfile
 import uuid
 import json
@@ -10,7 +11,7 @@ from fastapi import APIRouter, UploadFile, HTTPException
 from PIL import Image, PngImagePlugin
 from fastapi.responses import StreamingResponse
 
-server_address = "127.0.0.1:8188"
+server_address = os.getenv("COMFYUI_HOST", "127.0.0.1:8188")
 client_id = str(uuid.uuid4())
 router = APIRouter()
 
